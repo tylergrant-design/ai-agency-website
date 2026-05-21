@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Tyler Grant</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/tabler-icons.min.css">
+  <style>
+    :root {
+      --bg-page:    #f4f3f1;
+      --bg-card:    #ffffff;
+      --bg-surface: #eeede9;
+      --bg-input:   #ffffff;
+      --text-primary:   #2d2d2d;
+      --text-secondary: #6b6b6b;
+      --text-tertiary:  #a0a0a0;
+      --border:        rgba(0,0,0,0.09);
+      --border-strong: rgba(0,0,0,0.16);
+      --c-red:          #C64444;
+      --c-red-light:    #F5DADA;
+      --c-red-dark:     #8C2E2E;
+      --c-green:        #3A9E5F;
+      --c-green-light:  #D1F0DC;
+      --c-green-dark:   #256B3E;
+      --c-blue:         #3171C6;
+      --c-blue-light:   #D6E5F7;
+      --c-blue-dark:    #1F4D8C;
+      --c-amber:        #C68A31;
+      --c-amber-light:  #F5E6C8;
+      --c-amber-dark:   #8C5E1F;
+      --c-purple:       #7C44C6;
+      --c-purple-light: #E5D6F7;
+      --c-purple-dark:  #542E8C;
+    }
+
+    .dark {
+      --bg-page:    #1e1e1e;
+      --bg-card:    #2d2d2d;
+      --bg-surface: #262626;
+      --bg-input:   #333333;
+      --text-primary:   #f4f3f1;
+      --text-secondary: #a0a0a0;
+      --text-tertiary:  #666666;
+      --border:        rgba(255,255,255,0.08);
+      --border-strong: rgba(255,255,255,0.16);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    #root {
+      font-family: system-ui, -apple-system, sans-serif;
+      background: var(--bg-page);
+      color: var(--text-primary);
+      min-height: 100vh;
+      transition: background 0.2s ease, color 0.2s ease;
+      overflow-x: hidden;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* ---- Header ---- */
+    header {
+      padding: 20px 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .logo {
+      font-size: 15px;
+      font-weight: 500;
+      color: var(--text-primary);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .logo i {
+      font-size: 20px;
+      color: var(--c-blue);
+      transition: transform 0.35s cubic-bezier(0.34,1.56,0.64,1), color 0.2s ease;
+    }
+
+    .logo:hover i { transform: scale(1.2); }
+
+    .toggle {
+      width: 40px; height: 22px;
+      background: var(--bg-surface);
+      border: 0.5px solid var(--border-strong);
+      border-radius: 999px;
+      cursor: pointer;
+      position: relative;
+      transition: background 0.2s ease, border-color 0.2s ease;
+      flex-shrink: 0;
+    }
+    .toggle.on { background: var(--c-blue); border-color: var(--c-blue); }
+    .toggle-thumb {
+      width: 16px; height: 16px;
+      background: #fff;
+      border-radius: 50%;
+      position: absolute;
+      top: 2px; left: 2px;
+      transition: transform 0.2s cubic-bezier(0.4,0,0.2,1);
+    }
+    .toggle.on .toggle-thumb { transform: translateX(18px); }
+
+    /* ---- Hero ---- */
+    .hero {
+      padding: 72px 0 48px;
+      text-align: center;
+    }
+
+    .badge-wrap {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 20px;
+    }
+
+    .badge {
+      font-size: 11px;
+      font-weight: 500;
+      padding: 4px 12px 4px 8px;
+      border-radius: 999px;
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      background: var(--c-blue-light);
+      color: var(--c-blue-dark);
+      animation: badgePop 0.35s cubic-bezier(0.34,1.56,0.64,1) 0.1s both;
+    }
+
+    .dark .badge {
+      background: rgba(49,113,198,0.18);
+      color: var(--c-blue);
+    }
+
+    .dot-live {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: var(--c-blue);
+      position: relative;
+      flex-shrink: 0;
+    }
+    .pulse-ring {
+      position: absolute;
+      inset: -3px;
+      border-radius: 50%;
+      border: 1.5px solid var(--c-blue);
+      animation: pulseRing 2s ease-out infinite;
+    }
+
+    .hero-title {
+      font-size: 48px;
+      font-weight: 500;
+      letter-spacing: -0.02em;
+      line-height: 1.1;
+      color: var(--text-primary);
+      animation: cardIn 0.5s cubic-bezier(0.4,0,0.2,1) 0.15s both;
+    }
+
+    .hero-sub {
+      font-size: 16px;
+      font-weight: 400;
+      color: var(--text-secondary);
+      margin-top: 12px;
+      line-height: 1.6;
+      animation: cardIn 0.5s cubic-bezier(0.4,0,0.2,1) 0.25s both;
+    }
+
+    /* ---- Service cards ---- */
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+      margin-bottom: 40px;
+    }
+
+    .card {
+      background: var(--bg-card);
+      border: 0.5px solid var(--border);
+      border-radius: 14px;
+      padding: 18px 20px;
+      transition: background 0.2s ease, border-color 0.2s ease,
+                  transform 0.35s cubic-bezier(0.34,1.56,0.64,1);
+      cursor: default;
+    }
+    .card:hover { transform: translateY(-3px); }
+
+    .card-blue  { border-left: 3px solid var(--c-blue);  border-radius: 0 14px 14px 0; }
+    .card-green { border-left: 3px solid var(--c-green); border-radius: 0 14px 14px 0; }
+    .card-amber { border-left: 3px solid var(--c-amber); border-radius: 0 14px 14px 0; }
+
+    .card-icon {
+      font-size: 20px;
+      color: var(--text-secondary);
+      margin-bottom: 10px;
+      transition: transform 0.35s cubic-bezier(0.34,1.56,0.64,1), color 0.2s ease;
+    }
+    .card-blue:hover  .card-icon { transform: scale(1.2); color: var(--c-blue); }
+    .card-green:hover .card-icon { transform: scale(1.2); color: var(--c-green); }
+    .card-amber:hover .card-icon { transform: scale(1.2); color: var(--c-amber); }
+
+    .card-title {
+      font-size: 15px;
+      font-weight: 500;
+      color: var(--text-primary);
+      margin-bottom: 6px;
+    }
+    .card-desc {
+      font-size: 13px;
+      color: var(--text-secondary);
+      line-height: 1.5;
+    }
+
+    .card:nth-child(1) { animation: cardIn 0.5s cubic-bezier(0.4,0,0.2,1) 0.3s both; }
+    .card:nth-child(2) { animation: cardIn 0.5s cubic-bezier(0.4,0,0.2,1) 0.4s both; }
+    .card:nth-child(3) { animation: cardIn 0.5s cubic-bezier(0.4,0,0.2,1) 0.5s both; }
+
+    /* ---- Progress ---- */
+    .progress-section {
+      margin-bottom: 48px;
+      animation: cardIn 0.5s cubic-bezier(0.4,0,0.2,1) 0.55s both;
+    }
+
+    .progress-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 8px;
+    }
+
+    .progress-label { font-size: 13px; color: var(--text-secondary); }
+    .progress-pct   { font-size: 13px; font-weight: 500; color: var(--c-blue); }
+
+    .prog-track {
+      height: 6px;
+      background: var(--bg-surface);
+      border-radius: 999px;
+      overflow: hidden;
+    }
+
+    .prog-fill {
+      height: 100%;
+      border-radius: 999px;
+      background: var(--c-blue);
+      width: 0;
+    }
+
+    /* ---- CTA ---- */
+    .cta {
+      text-align: center;
+      padding-bottom: 80px;
+      animation: cardIn 0.5s cubic-bezier(0.4,0,0.2,1) 0.65s both;
+    }
+
+    .btn {
+      font-size: 13px;
+      font-weight: 500;
+      padding: 10px 24px;
+      border-radius: 10px;
+      border: none;
+      cursor: pointer;
+      font-family: inherit;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--c-blue);
+      color: #fff;
+      position: relative;
+      transition: opacity 0.2s ease, transform 0.35s cubic-bezier(0.34,1.56,0.64,1);
+    }
+    .btn:hover  { opacity: 0.88; transform: translateY(-1px); }
+    .btn:active { transform: scale(0.97); }
+
+    .btn-label { transition: opacity 0.15s ease; }
+
+    .btn-spinner {
+      display: none;
+      width: 14px; height: 14px;
+      border: 2px solid rgba(255,255,255,0.35);
+      border-top-color: #fff;
+      border-radius: 50%;
+      position: absolute;
+      left: 50%; top: 50%;
+      transform: translate(-50%,-50%);
+      animation: spin 0.65s linear infinite;
+    }
+
+    .btn.loading { pointer-events: none; }
+    .btn.loading .btn-label { opacity: 0; }
+    .btn.loading .btn-icon  { display: none; }
+    .btn.loading .btn-spinner { display: block; }
+
+    .fail-msg {
+      font-size: 12px;
+      color: var(--c-red);
+      margin-top: 10px;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      height: 18px;
+    }
+    .fail-msg.visible { opacity: 1; }
+
+    /* ---- X overlay ---- */
+    .x-overlay {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 999;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      background: rgba(198,68,68,0);
+    }
+
+    .x-overlay.active {
+      opacity: 1;
+      pointer-events: auto;
+      background: rgba(198,68,68,0.06);
+      transition: opacity 0.15s ease, background 0.15s ease;
+    }
+
+    .x-overlay.fading {
+      opacity: 0;
+      transition: opacity 0.35s ease;
+    }
+
+    .x-line {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      width: 200vmax;
+      height: 16px;
+      background: var(--c-red);
+      border-radius: 999px;
+      transform-origin: center;
+    }
+
+    .x-line:nth-child(1) {
+      transform: translate(-50%, -50%) rotate(45deg) scaleX(0);
+      transition: transform 0.45s cubic-bezier(0.34,1.56,0.64,1);
+    }
+    .x-line:nth-child(2) {
+      transform: translate(-50%, -50%) rotate(-45deg) scaleX(0);
+      transition: transform 0.45s cubic-bezier(0.34,1.56,0.64,1) 0.05s;
+    }
+
+    .x-overlay.active .x-line:nth-child(1) {
+      transform: translate(-50%, -50%) rotate(45deg) scaleX(1);
+    }
+    .x-overlay.active .x-line:nth-child(2) {
+      transform: translate(-50%, -50%) rotate(-45deg) scaleX(1);
+    }
+
+    .x-overlay.shake {
+      animation: xShake 0.45s cubic-bezier(0.34,1.56,0.64,1) both;
+    }
+
+    /* ---- Footer ---- */
+    footer {
+      border-top: 0.5px solid var(--border);
+      padding: 20px 0;
+    }
+
+    .footer-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .footer-text {
+      font-size: 12px;
+      color: var(--text-tertiary);
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    /* ---- Keyframes ---- */
+    @keyframes cardIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes badgePop {
+      from { transform: scale(0.7); opacity: 0; }
+      to   { transform: scale(1);   opacity: 1; }
+    }
+
+    @keyframes pulseRing {
+      0%   { transform: scale(0.7); opacity: 0.8; }
+      100% { transform: scale(2.4); opacity: 0; }
+    }
+
+    @keyframes spin {
+      to { transform: translate(-50%,-50%) rotate(360deg); }
+    }
+
+    @keyframes xShake {
+      0%, 100% { transform: rotate(0deg) scale(1); }
+      15%  { transform: rotate(-4deg) scale(1.03); }
+      30%  { transform: rotate(4deg)  scale(1.01); }
+      50%  { transform: rotate(-2.5deg); }
+      70%  { transform: rotate(2deg); }
+      85%  { transform: rotate(-1deg); }
+    }
+
+    /* ---- Responsive ---- */
+    @media (max-width: 620px) {
+      .cards { grid-template-columns: 1fr; }
+      .hero-title { font-size: 36px; }
+      .footer-inner { flex-direction: column; gap: 8px; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+  <div id="root">
+
+    <!-- X fail overlay -->
+    <div class="x-overlay" id="xOverlay">
+      <div class="x-line"></div>
+      <div class="x-line"></div>
+    </div>
+
+    <div class="container">
+
+      <!-- Header -->
+      <header>
+        <div class="logo">
+          <i class="ti ti-bolt" aria-hidden="true"></i>
+          Tyler Grant
+        </div>
+        <div class="toggle" id="toggle" onclick="toggleMode()" role="switch" aria-label="Toggle dark mode">
+          <div class="toggle-thumb"></div>
+        </div>
+      </header>
+
+      <main>
+
+        <!-- Hero -->
+        <section class="hero">
+          <div class="badge-wrap">
+            <span class="badge">
+              <span class="dot-live"><span class="pulse-ring"></span></span>
+              building now
+            </span>
+          </div>
+          <h1 class="hero-title">Tyler Grant</h1>
+          <p class="hero-sub">AI agency &amp; consulting &middot; Canada</p>
+        </section>
+
+        <!-- Service cards -->
+        <div class="cards">
+          <div class="card card-blue">
+            <div class="card-icon"><i class="ti ti-robot" aria-hidden="true"></i></div>
+            <div class="card-title">AI agents</div>
+            <div class="card-desc">Custom automation and intelligent agents built to your workflow.</div>
+          </div>
+          <div class="card card-green">
+            <div class="card-icon"><i class="ti ti-chart-bar" aria-hidden="true"></i></div>
+            <div class="card-title">Consulting</div>
+            <div class="card-desc">Strategic AI integration for teams that want to move faster with less friction.</div>
+          </div>
+          <div class="card card-amber">
+            <div class="card-icon"><i class="ti ti-layout" aria-hidden="true"></i></div>
+            <div class="card-title">Web builds</div>
+            <div class="card-desc">Fast, clean websites and SaaS products shipped on a tight timeline.</div>
+          </div>
+        </div>
+
+        <!-- Progress -->
+        <div class="progress-section">
+          <div class="progress-header">
+            <span class="progress-label">Website progress</span>
+            <span class="progress-pct">68%</span>
+          </div>
+          <div class="prog-track">
+            <div class="prog-fill" id="progFill"></div>
+          </div>
+        </div>
+
+        <!-- CTA -->
+        <div class="cta">
+          <button class="btn" id="accessBtn" onclick="accessClick()">
+            <i class="ti ti-arrow-right btn-icon" aria-hidden="true"></i>
+            <span class="btn-label">Access website</span>
+            <span class="btn-spinner"></span>
+          </button>
+          <div class="fail-msg" id="failMsg">not quite yet &mdash; but soon.</div>
+        </div>
+
+      </main>
+
+      <!-- Footer -->
+      <footer>
+        <div class="footer-inner">
+          <span class="footer-text">
+            <i class="ti ti-map-pin" style="font-size:13px;" aria-hidden="true"></i>
+            Canada
+          </span>
+          <span class="footer-text">&copy; 2025 Tyler Grant</span>
+        </div>
+      </footer>
+
+    </div>
+  </div>
+
+  <script>
+    function toggleMode() {
+      document.getElementById('root').classList.toggle('dark');
+      document.getElementById('toggle').classList.toggle('on');
+    }
+
+    // Animate progress bar on load
+    window.addEventListener('load', function () {
+      setTimeout(function () {
+        var fill = document.getElementById('progFill');
+        fill.style.transition = 'width 1.2s cubic-bezier(0.4,0,0.2,1)';
+        fill.style.width = '68%';
+      }, 700);
+    });
+
+    // Access website fail sequence
+    var busy = false;
+
+    function accessClick() {
+      if (busy) return;
+      busy = true;
+
+      var btn     = document.getElementById('accessBtn');
+      var overlay = document.getElementById('xOverlay');
+      var failMsg = document.getElementById('failMsg');
+
+      failMsg.classList.remove('visible');
+      btn.classList.add('loading');
+
+      // Step 1 — fake loading
+      setTimeout(function () {
+
+        // Step 2 — slam X in
+        overlay.classList.add('active');
+
+        setTimeout(function () {
+
+          // Step 3 — shake
+          overlay.classList.add('shake');
+
+          setTimeout(function () {
+
+            // Step 4 — fade out
+            overlay.classList.remove('active');
+            overlay.classList.add('fading');
+
+            setTimeout(function () {
+              overlay.classList.remove('fading', 'shake');
+              btn.classList.remove('loading');
+              failMsg.classList.add('visible');
+              busy = false;
+            }, 380);
+
+          }, 450);
+        }, 550);
+      }, 780);
+    }
+  </script>
+</body>
+</html>
