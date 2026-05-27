@@ -174,6 +174,8 @@ Detailed brand and company docs (in `docs/information/`):
 - `brand-identity.md` — full brand questionnaire, positioning, voice, motion notes
 - `company-information.md` — business identity, contact, legal, tools
 
+**Build roadmap:** `docs/decisions/03-build-roadmap.md` is the canonical remaining-work checklist. **When Tyler asks "what's next?", read it first.** Tick items off there as they ship.
+
 If a detail isn't in this file and isn't in those, **ask Tyler** — don't invent.
 
 ---
@@ -191,13 +193,13 @@ If a detail isn't in this file and isn't in those, **ask Tyler** — don't inven
 | `next` | 16.2.6 | Turbopack is the default bundler in 16 — no opt-in needed |
 | `react` / `react-dom` | 19.2.4 | |
 | `tailwindcss` + `@tailwindcss/postcss` | ^4 | v4 config lives in `globals.css` via `@theme`, not `tailwind.config.*` |
-| `motion` | ^12.40.0 | Installed, **not yet imported anywhere** |
+| `motion` | ^12.40.0 | Wired via `components/motion/fade-up.tsx` + `site-header.tsx` mobile menu |
 | `react-hook-form` | ^7.76.1 | Installed, **no form code yet** |
 | `zod` | ^4.4.3 | Installed, **no schemas yet** |
 | `resend` | ^6.12.4 | Installed, **no server action yet** |
 | `clsx` + `tailwind-merge` | ^2 / ^3 | Backing `cn()` in `src/lib/utils.ts` |
 
-**Not yet installed:** `shadcn/ui` (no `components.json`, no `src/components/ui/`). When adding it, use the shadcn MCP server.
+**shadcn/ui:** `components.json` is wired up at repo root (Tailwind v4, new-york style, neutral base, lucide icons). `src/components/ui/` is not created yet — it'll be created when the first component is added via the shadcn MCP. Do not run `npx shadcn init` — it would clobber our `globals.css` `@theme` block.
 
 ### Tailwind v4 token wiring
 
@@ -224,18 +226,24 @@ Three Google fonts loaded in `src/app/layout.tsx` via `next/font/google`:
 src/
 ├── app/
 │   ├── layout.tsx          # Root layout: fonts, metadata, <SiteHeader/>, children
-│   ├── page.tsx            # Homepage — HERO ONLY. No other sections yet.
+│   ├── page.tsx            # Homepage: hero (FadeUp staggered) + <Differentiators/> + <Process/>
 │   ├── globals.css         # Tailwind v4 @theme block + body defaults
-│   └── favicon.ico         # Default — replace
+│   ├── icon.svg            # Next.js App Router favicon (t-in-circle on brand blue)
+│   └── favicon.ico         # Legacy fallback
 ├── components/
-│   └── layout/
-│       └── site-header.tsx # Sticky nav: wordmark, 3 anchor links, amber CTA
+│   ├── layout/
+│   │   └── site-header.tsx # Client: wordmark, desktop nav + amber CTA, mobile hamburger w/ animated slide-down menu
+│   ├── sections/
+│   │   ├── differentiators.tsx # 3-card "How we build" panel on soft blue
+│   │   └── process.tsx     # 5-stage hover-reveal vertical stepper
+│   └── motion/
+│       └── fade-up.tsx     # Client wrapper: fade-up-on-scroll, respects prefers-reduced-motion
 └── lib/
     ├── design-tokens.ts    # TS palette mirror
     └── utils.ts            # cn() helper
 ```
 
-**Empty / missing directories** vs the §7 plan: `src/app/(marketing)/`, `src/app/api/`, `src/app/about/`, `src/components/ui/`, `src/components/sections/`, `src/components/motion/`, `src/lib/resend.ts`.
+**Empty / missing directories** vs the §7 plan: `src/app/(marketing)/`, `src/app/api/`, `src/app/about/`, `src/components/ui/`, `src/lib/resend.ts`.
 
 ### Broken / dead anchor links to wire up
 

@@ -1,3 +1,5 @@
+import { FadeUp } from "@/components/motion/fade-up";
+
 /** Differentiators section — the 3 things that don't change. Soft blue panel under the hero. */
 export function Differentiators() {
   return (
@@ -6,20 +8,24 @@ export function Differentiators() {
       className="bg-brand-blue text-brand-cream"
     >
       <div className="mx-auto w-full max-w-5xl px-6 py-24 md:py-28 lg:py-32">
-        <p className="font-sans text-sm font-medium tracking-widest uppercase text-brand-cream/70">
-          How we build
-        </p>
-        <h2 className="mt-4 max-w-2xl font-serif text-3xl font-medium leading-tight tracking-tight md:text-4xl lg:text-5xl">
-          Three things that don&apos;t change.
-        </h2>
+        <FadeUp>
+          <p className="font-sans text-sm font-medium tracking-widest uppercase text-brand-cream/70">
+            How we build
+          </p>
+          <h2 className="mt-4 max-w-2xl font-serif text-3xl font-medium leading-tight tracking-tight md:text-4xl lg:text-5xl">
+            Three things that don&apos;t change.
+          </h2>
+        </FadeUp>
 
         <ul
           role="list"
           className="mt-14 grid grid-cols-1 gap-6 md:grid-cols-3 md:gap-5"
         >
-          {items.map((item) => (
-            <li
+          {items.map((item, i) => (
+            <FadeUp
+              as="li"
               key={item.title}
+              delay={0.15 + i * 0.1}
               className="rounded-2xl border border-white/10 bg-white/5 p-7 backdrop-blur-sm"
             >
               <div className="flex h-10 w-10 items-center justify-center rounded-full bg-white/10 text-brand-cream">
@@ -31,15 +37,17 @@ export function Differentiators() {
               <p className="mt-3 text-sm leading-relaxed text-brand-cream/80">
                 {item.body}
               </p>
-            </li>
+            </FadeUp>
           ))}
         </ul>
 
-        <p className="mt-12 max-w-2xl text-sm italic leading-relaxed text-brand-cream/70 md:text-base">
-          What you won&apos;t get: account managers, status decks, or a sales team
-          you&apos;ve never met. You talk to the person building your tool —
-          every step.
-        </p>
+        <FadeUp delay={0.2}>
+          <p className="mt-12 max-w-2xl text-sm italic leading-relaxed text-brand-cream/70 md:text-base">
+            What you won&apos;t get: account managers, status decks, or a sales team
+            you&apos;ve never met. You talk to the person building your tool —
+            every step.
+          </p>
+        </FadeUp>
       </div>
     </section>
   );
