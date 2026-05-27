@@ -1,0 +1,29 @@
+@import "tailwindcss";
+
+/* Atlantic Soft palette — kept in sync with src/lib/design-tokens.ts.
+   Tailwind v4 generates utilities from these (e.g. bg-brand-blue, text-brand-ink). */
+@theme inline {
+  --color-brand-blue: #5B95C9;
+  --color-brand-ink: #202A38;
+  --color-brand-cream: #FAFBFC;
+  --color-brand-amber: #E8965A;
+  --color-brand-slate: #6B7785;
+
+  /* Semantic aliases — use these in components, not the brand-* tokens, so we can
+     swap palettes later without touching every file. */
+  --color-background: var(--color-brand-cream);
+  --color-foreground: var(--color-brand-ink);
+  --color-muted-foreground: var(--color-brand-slate);
+  --color-accent: var(--color-brand-amber);
+  --color-surface: var(--color-brand-blue);
+
+  --font-sans: var(--font-geist-sans);
+  --font-serif: var(--font-lora);
+  --font-mono: var(--font-geist-mono);
+}
+
+body {
+  background: var(--color-background);
+  color: var(--color-foreground);
+  font-family: var(--font-sans), system-ui, sans-serif;
+}
