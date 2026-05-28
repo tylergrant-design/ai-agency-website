@@ -225,17 +225,24 @@ Three Google fonts loaded in `src/app/layout.tsx` via `next/font/google`:
 ```
 src/
 ├── app/
-│   ├── layout.tsx          # Root layout: fonts, metadata, <SiteHeader/>, children
-│   ├── page.tsx            # Homepage: hero (FadeUp staggered) + <Differentiators/> + <Process/>
+│   ├── layout.tsx          # Root layout: fonts, metadata, <SiteHeader/>, children, <SiteFooter/>
+│   ├── page.tsx            # Homepage: hero + <Differentiators/> + <Services/> + <Process/> + <ContactCta/>
+│   ├── about/
+│   │   └── page.tsx        # About: hero + Goals (soft-blue panel) + Identity (5 values) + <ContactCta/>
+│   ├── privacy/
+│   │   └── page.tsx        # Reads /privacy-policy.md at request time, renders Termly HTML via dangerouslySetInnerHTML
 │   ├── globals.css         # Tailwind v4 @theme block + body defaults
 │   ├── icon.svg            # Next.js App Router favicon (t-in-circle on brand blue)
 │   └── favicon.ico         # Legacy fallback
 ├── components/
 │   ├── layout/
-│   │   └── site-header.tsx # Client: wordmark, desktop nav + amber CTA, mobile hamburger w/ animated slide-down menu
+│   │   ├── site-header.tsx # Client: wordmark, desktop nav + amber CTA, mobile hamburger w/ animated slide-down menu
+│   │   └── site-footer.tsx # Deep-ink site-wide footer: sitemap, contact links, copyright
 │   ├── sections/
 │   │   ├── differentiators.tsx # 3-card "How we build" panel on soft blue
-│   │   └── process.tsx     # 5-stage hover-reveal vertical stepper
+│   │   ├── services.tsx    # 2x2 grid of the four service offerings (#services anchor)
+│   │   ├── process.tsx     # 5-stage hover-reveal vertical stepper
+│   │   └── contact-cta.tsx # Big CTA section — #contact anchor, mailto button until form lands
 │   └── motion/
 │       └── fade-up.tsx     # Client wrapper: fade-up-on-scroll, respects prefers-reduced-motion
 └── lib/
@@ -243,14 +250,14 @@ src/
     └── utils.ts            # cn() helper
 ```
 
-**Empty / missing directories** vs the §7 plan: `src/app/(marketing)/`, `src/app/api/`, `src/app/about/`, `src/components/ui/`, `src/lib/resend.ts`.
+**Empty / missing directories** vs the §7 plan: `src/app/(marketing)/`, `src/app/api/`, `src/app/contact/`, `src/components/ui/`, `src/lib/resend.ts`.
 
 ### Broken / dead anchor links to wire up
 
 These exist in the UI but have no destination yet — every new section closes one of these gaps:
 
-- `<SiteHeader />` links to `/#process`, `/#services`, `/about`, `/#contact`
-- `page.tsx` hero CTA links to `#contact`
+- `<SiteHeader />` links: `/`, `/#services`, `/#process`, `/about`, `/#contact` — all wired. The Contact CTA is still a mailto fallback in `<ContactCta />` until the form ships.
+- `page.tsx` hero CTA links to `#contact` (lives in `<ContactCta />`).
 
 ### Hosting reality
 

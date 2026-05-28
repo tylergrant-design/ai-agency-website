@@ -6,6 +6,10 @@ const nextConfig: NextConfig = {
   turbopack: {
     root: import.meta.dirname,
   },
+  // Ensure /privacy bundles the markdown source it reads at request time.
+  outputFileTracingIncludes: {
+    "/privacy": ["./privacy-policy.md"],
+  },
 };
 
 export default nextConfig;

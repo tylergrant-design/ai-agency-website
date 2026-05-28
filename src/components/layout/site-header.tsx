@@ -10,8 +10,9 @@ interface NavLink {
 }
 
 const links: readonly NavLink[] = [
-  { href: "/#process", label: "Process" },
+  { href: "/", label: "Home" },
   { href: "/#services", label: "Services" },
+  { href: "/#process", label: "Process" },
   { href: "/about", label: "About" },
 ] as const;
 
@@ -40,9 +41,9 @@ export function SiteHeader() {
         >
           <span
             aria-hidden="true"
-            className="flex h-8 w-8 items-center justify-center rounded-full bg-brand-blue font-serif text-base font-semibold leading-none text-brand-cream"
+            className="flex h-8 w-8 items-center justify-center rounded-full bg-[#E5E7EB] font-sans text-[10px] font-medium leading-none text-[#9CA3AF]"
           >
-            t
+            ex
           </span>
           <span className="font-serif text-lg font-medium tracking-tight text-foreground">
             Tyler Grant
@@ -65,7 +66,7 @@ export function SiteHeader() {
         </nav>
 
         <Link
-          href="/#contact"
+          href="/contact"
           className="hidden items-center rounded-full bg-accent px-4 py-2 text-sm font-medium text-foreground shadow-sm transition-opacity duration-300 hover:opacity-90 md:inline-flex"
         >
           Contact
@@ -129,7 +130,7 @@ export function SiteHeader() {
                 </Link>
               ))}
               <Link
-                href="/#contact"
+                href="/contact"
                 onClick={() => setOpen(false)}
                 className="mt-2 inline-flex items-center justify-center rounded-full bg-accent px-5 py-3 text-base font-medium text-foreground shadow-sm transition-opacity duration-300 hover:opacity-90"
               >
